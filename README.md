@@ -67,13 +67,13 @@ Total rooms used: 20
 Total runtime: 148.18 seconds
 
 
-# OR-Tools Anesthesiologist Scheduling Model
+## OR-Tools Anesthesiologist Scheduling Model
 
 This model schedules surgeries across anesthesiologists and operating rooms while minimizing total cost and maintaining high utilization.
 
 ---
 
-## Model Overview
+### Model Overview
 
 1. **Load Data:**  
    Reads a CSV of surgeries with `start` and `end` times, computes duration, and converts timestamps to minutes.
