@@ -43,7 +43,7 @@ python plot_day_schedule.py ./ortools_anesth_cost_solution.csv
 ```
 #### Results
 
-## When enforcing 82% utilization (more than that returns INFEASIBLE)
+## When enforcing 82% utilization (maximum achieved)
 Total cost: 211.62
 
 Utilization: 82.6%
@@ -55,7 +55,7 @@ Total rooms used: 15
 Total runtime: 147.51 seconds
 
 
-## When enforcing 80% utilization (more than that returns INFEASIBLE)
+## When enforcing 80% utilization
 Total cost: 221.38
 
 Utilization: 80.0%
