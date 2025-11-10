@@ -14,9 +14,13 @@ python plot_day_schedule.py ./simple_greedy_solution.csv
 ```
 #### Results
 Total cost: 246.50
+
 Utilization: 55.3%
+
 Total anesthesiologists used: 27
+
 Total rooms used: 15
+
 Total runtime: 0.11 seconds
 
 ## Overview:
