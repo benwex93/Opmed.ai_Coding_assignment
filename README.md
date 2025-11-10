@@ -109,4 +109,5 @@ Setting deterministic seed for reproducibility (currently difficult due to paral
 Warm-Start - Starting from a greedy solution and optimizing?
 
 Delaying surgery if no rooms available beyond 20. The given surgeries.csv data doesn't encounter this issue as 20 is more than enough
+<img width="1848" height="974" alt="Schedule_Solution_80%_utilization" src="https://github.com/user-attachments/assets/2157e84e-7c50-4a65-8654-53f29c30dc3c" />
 
