@@ -106,7 +106,7 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
 
 
 ## Complexities Encountered
-when building solution all at once it runs into infeasibility issues. Therefore it's always a good idea to built up model by adding variables/constraints one by one.
+When building solution all at once it runs into infeasibility issues. Therefore it's always a good idea to built up model by adding variables/constraints one by one.
 
 Adding 15 minute buffer is tricky:
 At first tried just adding in 15 minute intervals after the solution is found and greedily push off any surgeries that extend beyond 12 hours to new anesthesiologists. Also tried assuming the worst and adding 15 minutes to each surgery. These didn't reach 80% utilization however so had to encode 15 minute buffer as variable/constraint.
