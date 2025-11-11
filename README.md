@@ -126,7 +126,7 @@ $I_{i,a}$ : optional interval for surgery $i$ on anesth $a$ (exists iff $an_{i,a
 $an\_ used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.  
 $room_{i,r}\in\{0,1\}$ : Bool, surgery $i$ assigned to room $r$.  
 $J_{i,r}$ : optional interval for surgery $i$ in room $r$.  
-$both\_ same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.  
+$both\_{same}_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.  
 $diff\_ room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.  
 $start\_a, end\_a$ : integer shift start/end for anesth $a$.  
 $shift_a$ : integer shift duration for anesth $a$.  
