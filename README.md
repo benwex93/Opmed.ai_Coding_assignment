@@ -112,27 +112,27 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
 $(n \times R)^{n}$
 
 where:  
-$n$ = number of *surgeries* to schedule,
-$R$ = number of *rooms* available,
-$n \times R$ = number of possible *(anesthesiologist, room)* combinations for a single surgery,
-and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.
+$n$ = number of *surgeries* to schedule,  
+$R$ = number of *rooms* available,  
+$n \times R$ = number of possible *(anesthesiologist, room)* combinations for a single surgery,  
+and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.  
 
 ### Variables/Constraints used:
-% Variables
-$start_i, end_i$ : integer surgery start/end (fixed from data).
-$d_i$ : surgery duration (constant).
-$an_{i,a}\in\{0,1\}$ : Bool, surgery $i$ assigned to anesthesiologist $a$.
-$I_{i,a}$ : optional interval for surgery $i$ on anesth $a$ (exists iff $an_{i,a}=1$).
-$an\_used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.
-$room_{i,r}\in\{0,1\}$ : Bool, surgery $i$ assigned to room $r$.
-$J_{i,r}$ : optional interval for surgery $i$ in room $r$.
-$both\_same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.
-$diff\_room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.
-$start\_a, end\_a$ : integer shift start/end for anesth $a$.
-$shift_a$ : integer shift duration for anesth $a$.
-$base_a, diff_a, extra_a$ : auxiliary integers for piecewise cost.
-$cost\_scaled_a$ : integer scaled cost for anesth $a$.
-$used\_dur_a$ : integer = $shift_a$ if anesth used else $0$.
+% Variables  
+$start_i, end_i$ : integer surgery start/end (fixed from data).  
+$d_i$ : surgery duration (constant).  
+$an_{i,a}\in\{0,1\}$ : Bool, surgery $i$ assigned to anesthesiologist $a$.  
+$I_{i,a}$ : optional interval for surgery $i$ on anesth $a$ (exists iff $an_{i,a}=1$).  
+$an\_used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.  
+$room_{i,r}\in\{0,1\}$ : Bool, surgery $i$ assigned to room $r$.  
+$J_{i,r}$ : optional interval for surgery $i$ in room $r$.  
+$both\_same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.  
+$diff\_room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.  
+$start\_a, end\_a$ : integer shift start/end for anesth $a$.  
+$shift_a$ : integer shift duration for anesth $a$.  
+$base_a, diff_a, extra_a$ : auxiliary integers for piecewise cost.  
+$cost\_scaled_a$ : integer scaled cost for anesth $a$.  
+$used\_dur_a$ : integer = $shift_a$ if anesth used else $0$.  
 
 % Constraints
 1) Timing: $e_i = s_i + d_i$ (surgery times fixed).  
