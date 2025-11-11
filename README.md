@@ -112,9 +112,9 @@ Problem Complexity:
 $(n \times R)^{n}$
 
 where:  
-$n$ = number of *surgeries* to schedule,\\
-$R$ = number of *rooms* available,\\
-$n \times R$ = number of possible *(anesthesiologist, room)* combinations for a single surgery,\\
+$n$ = number of *surgeries* to schedule,
+$R$ = number of *rooms* available,
+$n \times R$ = number of possible *(anesthesiologist, room)* combinations for a single surgery,
 and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.
 
 Variables/Constraints used:
