@@ -79,16 +79,21 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
    Reads a CSV of surgeries with `start` and `end` times, computes duration, and converts timestamps to minutes.
 
 2. **Create Fixed Intervals:**  
-   Each surgery has fixed start, end, and duration values used for time-based constraints.
+   Each surgery has fixed start, end, and duration values used for time-based constraints. These aren’t decision variables (the times are fixed) but they’re modeled as fixed IntVars for compatibility with interval variables later.
 
 3. **Assign Anesthesiologists:**  
-   Each surgery is assigned to exactly one anesthesiologist; anesthesiologists cannot overlap in time (`NoOverlap`).
+   Each surgery is assigned to exactly one anesthesiologist; anesthesiologists cannot overlap in time (`NoOverlap`). Track which anesthesiologists are used for use later in cost calculation and for symmetry-breaking constraint so that earlier IDs can’t be unused if later ones are used, reducing search space.
 
 4. **Assign Rooms:**  
-   Each surgery is assigned to exactly one of up to 20 rooms, also with `NoOverlap` constraints.
+   Each surgery is assigned to exactly one of up to 20 rooms, also with `NoOverlap` constraints so that no two surgeries can be in the same room.
 
 5. **Add 15-Minute Buffer:**  
    Enforces a 15-minute gap if an anesthesiologist switches to a different room between consecutive surgeries.
+   1) Finds all consecutive surgeries
+   2) Defines same room boolean SR for consectuive surgery i,j in ssame room r
+   3) Enforces SR(i,j,r) <-> Room_Assigned(i,r) ^ Room_Assigned(j, r) This creates NUM_ROOMS Boolean indicators (for each consecutive surgery for each ANT)
+   4) Defines same_room_sum = Sum(same_room_terms) same_room_sum is 1 if any of the rooms for a pair of consecutive surgeries for a particular ANT are the same room (enforced by Room_Assigned condition), 0 otherwise. We don't worry about sum > 1 because this done for each consecutive pair of surgeries and there can only be one instance of these surgeries either in exactly one room or 2 separate rooms (enforced previously with ExactlyOne constraint beforehand).
+   5) Use helper function to add 15 min buffer constraint to surgery end for any ANT that is assigned 2 consecutive surgeries in different room
 
 6. **Define Shift Durations:**  
    Each anesthesiologist’s shift spans from their first to last assigned surgery, capped at 12 hours.
@@ -103,6 +108,9 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
    Minimizes total cost, extracts assignments, prints utilization stats, and writes results to `ortools_anesth_cost_solution.csv`.
 
 ---
+Variables/Constraints used:
+Problem Complexity:
+
 
 
 ## Complexities Encountered
@@ -113,6 +121,8 @@ At first tried just adding in 15 minute intervals after the solution is found an
 
 
 ## Future Directions:
+
+Even 82% utilization has some obvious improvements in schedule somtimes from just looking at it.
 
 To speed up solving assume that surgeries are only given in 15 minute intervals (as in example data) rather than any time and reduce search space.
 
