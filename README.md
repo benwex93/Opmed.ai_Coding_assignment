@@ -108,10 +108,16 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
    Minimizes total cost, extracts assignments, prints utilization stats, and writes results to `ortools_anesth_cost_solution.csv`.
 
 ---
-Variables/Constraints used:
 Problem Complexity:
+$(n \times R)^{n}$
 
+where:  
+$n$ = number of \textit{surgeries} to schedule,\\
+$R$ = number of \textit{rooms} available,\\
+$n \times R$ = number of possible \textit{(anesthesiologist, room)} combinations for a single surgery,\\
+and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.
 
+Variables/Constraints used:
 
 ## Complexities Encountered
 When building solution all at once it runs into infeasibility issues. Therefore it's always a good idea to built up model by adding variables/constraints one by one.
