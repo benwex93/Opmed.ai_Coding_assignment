@@ -108,7 +108,7 @@ This model schedules surgeries across anesthesiologists and operating rooms whil
    Minimizes total cost, extracts assignments, prints utilization stats, and writes results to `ortools_anesth_cost_solution.csv`.
 
 ---
-Problem Complexity:
+### Problem Complexity:
 $(n \times R)^{n}$
 
 where:  
@@ -117,7 +117,37 @@ $R$ = number of *rooms* available,
 $n \times R$ = number of possible *(anesthesiologist, room)* combinations for a single surgery,
 and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.
 
-Variables/Constraints used:
+### Variables/Constraints used:
+% Variables
+$start_i, end_i$ : integer surgery start/end (fixed from data).
+$d_i$ : surgery duration (constant).
+$an_{i,a}\in\{0,1\}$ : Bool, surgery $i$ assigned to anesthesiologist $a$.
+$I_{i,a}$ : optional interval for surgery $i$ on anesth $a$ (exists iff $an_{i,a}=1$).
+$an\_used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.
+$room_{i,r}\in\{0,1\}$ : Bool, surgery $i$ assigned to room $r$.
+$J_{i,r}$ : optional interval for surgery $i$ in room $r$.
+$both\_same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.
+$diff\_room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.
+$start\_a, end\_a$ : integer shift start/end for anesth $a$.
+$shift_a$ : integer shift duration for anesth $a$.
+$base_a, diff_a, extra_a$ : auxiliary integers for piecewise cost.
+$cost\_scaled_a$ : integer scaled cost for anesth $a$.
+$used\_dur_a$ : integer = $shift_a$ if anesth used else $0$.
+
+% Constraints
+1) Timing: $e_i = s_i + d_i$ (surgery times fixed).  
+2) Exactly-one: $\sum_a an_{i,a} = 1$ and $\sum_r room_{i,r} = 1$ for each surgery $i$.  
+3) No-overlap: $AddNoOverlap(\{I_{i,a}\}_i)$ per anesth $a$, and $AddNoOverlap(\{J_{i,r}\}_i)$ per room $r$.  
+4) Anesth-used: $an\_used_a = \max_i an_{i,a}$.  
+5) Symmetry breaking: $an\_used_{a-1} \ge an\_used_a$.  
+6) Buffer: for consecutive $(i,j)$ with $end_i = start_j$, enforce $start_j \ge end_i + 15$ only if $an_{i,a}=1$, $an_{j,a}=1$, and $diff\_room_{i,j}=1$.  
+7) Room-difference logic: $both\_same_{i,j,r} \leftrightarrow (room_{i,r} \wedge room_{j,r})$, $same\_room\_sum = \sum_r both\_same_{i,j,r} \in\{0,1\}$, $diff\_room_{i,j}=1 \Leftrightarrow same\_room\_sum=0$.  
+8) Shift linking: If $an_{i,a}=1$ then $start\_a \le start_i$ and $end\_a \ge end_i$. $shift_a = end_a - start_a$, $shift_a \le$ MAX_SHIFT.  
+9) Cost piecewise: $base_a = \max(shift_a,5\text{h})$, $diff_a = shift_a - 9\text{h}$, $extra_a=\max(diff_a,0)$, $cost\_scaled_a = 2\cdot base_a + extra_a$ if $an\_used_a=1$ else $0$.  
+10) Utilization: Let $S=\sum_i d_i$ and $T=\sum_a used\_dur_a$. Enforce $100\cdot S \ge 80\cdot T$ (i.e. $S/T \ge 0.8$).
+
+% Objective
+Minimize $\sum_a cost\_scaled_a$ (final reported cost = $\frac{1}{120}\sum_a cost\_scaled_a$).
 
 ## Complexities Encountered
 When building solution all at once it runs into infeasibility issues. Therefore it's always a good idea to built up model by adding variables/constraints one by one.
