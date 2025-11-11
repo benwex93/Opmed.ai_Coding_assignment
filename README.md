@@ -118,23 +118,23 @@ $n \times R$ = number of possible *(anesthesiologist, room)* combinations for a 
 and $(n \times R)^{n}$ represents all possible independent assignments of anesthesiologist–room pairs across all $n$ surgeries.  
 
 ### Variables/Constraints used:
-% Variables  
+#### Variables  
 $start_i, end_i$ : integer surgery start/end (fixed from data).  
 $d_i$ : surgery duration (constant).  
 $an_{i,a}\in\{0,1\}$ : Bool, surgery $i$ assigned to anesthesiologist $a$.  
 $I_{i,a}$ : optional interval for surgery $i$ on anesth $a$ (exists iff $an_{i,a}=1$).  
-$an\_used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.  
+$an\_ used_a\in\{0,1\}$ : Bool, anesthesiologist $a$ is used.  
 $room_{i,r}\in\{0,1\}$ : Bool, surgery $i$ assigned to room $r$.  
 $J_{i,r}$ : optional interval for surgery $i$ in room $r$.  
-$both\_same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.  
-$diff\_room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.  
+$both\_ same_{i,j,r}\in\{0,1\}$ : Bool, $i$ and $j$ both in room $r$.  
+$diff\_ room_{i,j}\in\{0,1\}$ : Bool, $i,j$ are in different rooms.  
 $start\_a, end\_a$ : integer shift start/end for anesth $a$.  
 $shift_a$ : integer shift duration for anesth $a$.  
 $base_a, diff_a, extra_a$ : auxiliary integers for piecewise cost.  
-$cost\_scaled_a$ : integer scaled cost for anesth $a$.  
-$used\_dur_a$ : integer = $shift_a$ if anesth used else $0$.  
+$cost\_ scaled_a$ : integer scaled cost for anesth $a$.  
+$used\_ dur_ a$ : integer = $shift_a$ if anesth used else $0$.  
 
-% Constraints
+#### Constraints
 1) Timing: $e_i = s_i + d_i$ (surgery times fixed).  
 2) Exactly-one: $\sum_a an_{i,a} = 1$ and $\sum_r room_{i,r} = 1$ for each surgery $i$.  
 3) No-overlap: $AddNoOverlap(\{I_{i,a}\}_i)$ per anesth $a$, and $AddNoOverlap(\{J_{i,r}\}_i)$ per room $r$.  
